@@ -1,0 +1,26 @@
+agent: tester
+created: 2026-07-03
+task_id: t_4646748b
+slug: boothflow
+
+pipeline:
+  current_stage: tester
+  next_stage_recommended: seller
+  next_stage_reason: "QA passed: smoke tests 37/37, buyer drill passed, license gating works, no hardcoded secrets. Product is ready for seller review/launch prep."
+reasoning:
+  current_decision: PASS
+  confidence: 0.92
+  evidence_for:
+    - "Smoke tests passed 37/37"
+    - "Buyer drill confirmed invalid key rejected, valid Pro/Business keys activate tier"
+    - "Free limits block extra clients/bookings"
+    - "Upgrade CTA shows demo-mode activation when Stripe placeholders are present"
+    - "No hardcoded secrets found in source"
+    - "All brief/offer claims functional in browser"
+  evidence_against:
+    - "Stripe checkout remains placeholder; not a real payment path yet"
+    - "No real file upload for galleries; only URLs"
+  assumptions_remaining:
+    - "Real Stripe links will be substituted before production launch"
+    - "Operator interviews still needed for pricing validation"
+  what_would_change_my_mind: "If a bypass from invalid key to paid features were found, or if core routes crash in browser."

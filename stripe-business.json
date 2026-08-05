@@ -1,0 +1,8 @@
+{
+  "mode": "test",
+  "product": "prod_V0zPeKNFjhiMS3",
+  "price": "price_1U0xQpIFomlmzi58pUdrZa1R",
+  "payment_link_url": "https://buy.stripe.com/test_9B6aEYaHedZnfOefSEbAs0p",
+  "amount": 5900,
+  "recurring": "month"
+}
