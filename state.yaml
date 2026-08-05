@@ -1,26 +1,47 @@
-agent: tester
-created: 2026-07-03
-task_id: t_4646748b
+agent: seller
+created: 2026-08-05
+task_id: t_72e0538d
 slug: boothflow
 
 pipeline:
-  current_stage: tester
-  next_stage_recommended: seller
-  next_stage_reason: "QA passed: smoke tests 37/37, buyer drill passed, license gating works, no hardcoded secrets. Product is ready for seller review/launch prep."
+  current_stage: seller
+  next_stage_recommended: live-monitor
+  next_stage_reason: "Stripe TEST checkouts wired, landing deployed live, smoke tests 37/37 PASS. Remaining Eric gates: live Stripe flip (STRIPE_WRITE_KEY), outreach freeze lift for directory/CWS submission, license-key fulfillment automation."
+
+state:
+  status: LIVE (landing + app deployed; checkout links TEST)
+  landing_url: https://ericjoye.github.io/boothflow/
+  app_url: https://ericjoye.github.io/boothflow/app/
+  github_repo: https://github.com/ericjoye/boothflow
+  stripe:
+    mode: test
+    pro_link: https://buy.stripe.com/test_fZubJ28z6cVj45w49WbAs0o
+    business_link: https://buy.stripe.com/test_9B6aEYaHedZnfOefSEbAs0p
+    pro_record: stripe.json
+    business_record: stripe-business.json
+  source_restored_from: /mnt/c/Users/Jeirc/Desktop/obsidian-vault/Runtime/Hermes/businesses/boothflow/
+
+evidence:
+  - "js syntax OK: node -c all 5 files"
+  - "smoke tests 37/37 PASS (node tests/smoke.js)"
+  - "0 Stripe placeholders left in js/licensing.js"
+  - "landing 200, checkout link on page 200 (check_url.py --checkout)"
+  - "app route 200 + manifest 200"
+  - "Pro + Business TEST payment links HTTP 200"
+
+gates:
+  - "Stripe links are TEST mode; live flip requires Eric's STRIPE_WRITE_KEY"
+  - "Outreach FREEZE (2026-07-17): no sends, no directory submissions. CWS zip + listing prepared as drafts only."
+  - "BoothFlow is a PWA (no manifest_version); CWS submission would require an MV3 conversion by builder if Eric wants an extension listing."
+
 reasoning:
-  current_decision: PASS
-  confidence: 0.92
+  current_decision: GO_LIVE_READY
   evidence_for:
-    - "Smoke tests passed 37/37"
-    - "Buyer drill confirmed invalid key rejected, valid Pro/Business keys activate tier"
-    - "Free limits block extra clients/bookings"
-    - "Upgrade CTA shows demo-mode activation when Stripe placeholders are present"
-    - "No hardcoded secrets found in source"
-    - "All brief/offer claims functional in browser"
+    - "Source recovered from Obsidian vault and restored to standard product dir"
+    - "Real TEST Stripe checkouts created and wired into licensing.js"
+    - "Landing page deployed live with buy buttons, app served at /app/"
+    - "All verification commands passed fresh this session"
   evidence_against:
-    - "Stripe checkout remains placeholder; not a real payment path yet"
-    - "No real file upload for galleries; only URLs"
-  assumptions_remaining:
-    - "Real Stripe links will be substituted before production launch"
-    - "Operator interviews still needed for pricing validation"
-  what_would_change_my_mind: "If a bypass from invalid key to paid features were found, or if core routes crash in browser."
+    - "Stripe still TEST mode, not live"
+    - "License-key fulfillment after checkout is manual (no webhook automation)"
+    - "CWS listing not submitted (freeze + PWA-not-extension)"

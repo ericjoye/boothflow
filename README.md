@@ -25,7 +25,11 @@ Enter a key in **Upgrade > Activate License Key** to change tiers. Remove it in 
 
 ## Stripe Test Mode
 
-- Replace Stripe placeholders in `js/licensing.js` with real test links.
+- TEST checkout links are wired in `js/licensing.js`:
+  - Pro: https://buy.stripe.com/test_fZubJ28z6cVj45w49WbAs0o
+  - Business: https://buy.stripe.com/test_9B6aEYaHedZnfOefSEbAs0p
+- Records: `stripe.json` (Pro) and `stripe-business.json` (Business), mode=test.
+- Live flip requires Eric's `STRIPE_WRITE_KEY` in `~/.hermes/secrets/stripe.env`.
 - In test mode, Stripe Checkout can remain external; the app still keeps all data in `localStorage`.
 
 ## Data
