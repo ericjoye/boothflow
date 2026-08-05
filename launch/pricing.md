@@ -9,8 +9,10 @@ Tiers:
 
 Current fulfillment state:
 - License-gated features are implemented and verified.
-- Stripe checkout links are placeholders; live payment flow is not yet wired.
+- Stripe TEST payment links are wired into `js/licensing.js` (Pro $29/mo + Business $59/mo) and verified HTTP 200.
+- LIVE payment flow is NOT yet wired — requires Eric's STRIPE_WRITE_KEY (live sk_/rk_) then `create_checkout.py boothflow --live` + re-wire.
 
-Human action required:
-- Replace Stripe placeholders in `js/licensing.js` with real Payment Link URLs.
-- After wiring, confirm checkout opens correctly and rerun smoke tests.
+Human action required (Eric-gated):
+- Live flip: set STRIPE_WRITE_KEY in ~/.hermes/secrets/stripe.env, re-run create_checkout.py --live to mint LIVE payment links, re-wire js/licensing.js.
+- License-key delivery after live checkout is manual today (email key); webhook automation would be builder work.
+- Legal pages (TERMS/PRIVACY/REFUND) before paid launch.
