@@ -1,0 +1,13 @@
+{
+  "name": "BoothFlow",
+  "short_name": "BoothFlow",
+  "description": "Instant quotes, bookings, galleries, and follow-ups for photo booth rental operators.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

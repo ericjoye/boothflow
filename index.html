@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BoothFlow — instant quotes, bookings, galleries, and follow-ups for photo booth rental operators. Free to start, works offline, no install needed.">
+  <title>BoothFlow — Run your photo booth business from one app, not ten.</title>
+  <meta property="og:title" content="BoothFlow — Photo Booth Operator OS">
+  <meta property="og:description" content="Instant quotes, bookings, branded galleries, follow-ups, and event-day checklists — all in one offline-first PWA for photo booth rental operators.">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <script defer src="https://static.vercel.com/analytics/script.js"></script>
+  <style>
+    :root {
+      --ink: #0f172a;
+      --ink-soft: #334155;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --line: #e2e8f0;
+      --brand: #4f46e5;
+      --brand-dark: #4338ca;
+      --accent: #f59e0b;
+      --green: #059669;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    header.site { background: var(--ink); color: #fff; padding: 16px 0; }
+    header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; }
+    .logo-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--brand); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; }
+    nav a { color: #cbd5e1; text-decoration: none; margin-left: 20px; font-size: 14px; font-weight: 600; }
+    nav a:hover { color: #fff; }
+    .hero { text-align: center; padding: 72px 20px 48px; }
+    .hero h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.12; letter-spacing: -0.02em; max-width: 800px; margin: 0 auto 18px; }
+    .hero p.sub { font-size: clamp(16px, 2.4vw, 20px); color: var(--muted); max-width: 640px; margin: 0 auto 30px; }
+    .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 14px 26px; border-radius: 999px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform .12s ease, box-shadow .12s ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35); }
+    .btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(15,23,42,0.05); }
+    .trust { margin-top: 22px; font-size: 13px; color: var(--muted); }
+    .trust span { display: inline-block; margin: 0 10px; }
+    section { padding: 56px 20px; }
+    section.alt { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .section-label { text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; font-weight: 800; color: var(--brand); margin-bottom: 8px; }
+    h2 { font-size: clamp(26px, 4vw, 36px); letter-spacing: -0.01em; margin-bottom: 10px; }
+    .lede { color: var(--muted); max-width: 620px; margin-bottom: 34px; }
+    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow); }
+    .card h3 { font-size: 18px; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 14px; }
+    .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+    .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+    .step .n { width: 30px; height: 30px; border-radius: 50%; background: var(--brand); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-bottom: 12px; }
+    .step h4 { font-size: 15px; margin-bottom: 6px; }
+    .step p { color: var(--muted); font-size: 13.5px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: stretch; }
+    .plan { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+    .plan.featured { border: 2px solid var(--brand); position: relative; }
+    .plan.featured .badge { position: absolute; top: -13px; left: 24px; background: var(--brand); color: #fff; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 999px; letter-spacing: 0.03em; }
+    .plan h3 { font-size: 18px; }
+    .plan .price { font-size: 40px; font-weight: 900; letter-spacing: -0.02em; margin: 10px 0 4px; }
+    .plan .price span { font-size: 15px; font-weight: 600; color: var(--muted); }
+    .plan .annual { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+    .plan ul { list-style: none; margin: 0 0 22px; flex-grow: 1; }
+    .plan li { padding: 7px 0 7px 26px; position: relative; font-size: 14px; color: var(--ink-soft); border-bottom: 1px solid #f1f5f9; }
+    .plan li:last-child { border-bottom: 0; }
+    .plan li::before { content: "✓"; position: absolute; left: 2px; color: var(--green); font-weight: 800; }
+    .plan .btn { text-align: center; }
+    .faq details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+    .faq summary { font-weight: 700; cursor: pointer; font-size: 15px; }
+    .faq p { color: var(--muted); font-size: 14px; margin-top: 10px; }
+    .cta-final { text-align: center; padding: 72px 20px; }
+    .cta-final h2 { margin-bottom: 8px; }
+    .cta-final p { color: var(--muted); margin-bottom: 26px; }
+    footer { background: var(--ink); color: #94a3b8; padding: 34px 20px; font-size: 13px; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; }
+    footer a { color: #cbd5e1; text-decoration: none; }
+    footer a:hover { color: #fff; }
+    .disclaimer { margin-top: 14px; font-size: 12px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <div class="logo"><span class="logo-icon">B</span><span>BoothFlow</span></div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="app/">Open App</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>Run your photo booth business from one app, not ten.</h1>
+    <p class="sub">BoothFlow turns quotes, bookings, galleries, and event-day ops into a single mobile workflow that works offline and stores data locally.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="app/">Try the free tier</a>
+      <a class="btn btn-secondary" href="#pricing">See pricing</a>
+    </div>
+    <div class="trust">
+      <span>✓ 37/37 smoke tests passed</span>
+      <span>✓ No install needed</span>
+      <span>✓ Works offline</span>
+      <span>✓ No account required for free tier</span>
+    </div>
+  </div>
+
+  <section class="alt" id="features">
+    <div class="wrap">
+      <div class="section-label">Features</div>
+      <h2>Everything a photo booth operator juggles, in one place</h2>
+      <p class="lede">Quotes, bookings, clients, galleries, checklists, and rebooking prompts — built for independent operators running 1–3 booths.</p>
+      <div class="grid3">
+        <div class="card"><h3>Instant quotes</h3><p>Build branded quotes with add-ons in seconds. Share a public link; convert to booking with one tap.</p></div>
+        <div class="card"><h3>Bookings & clients</h3><p>Keep every client, event date, package, deposit, and balance in one local-first CRM.</p></div>
+        <div class="card"><h3>Branded galleries</h3><p>Share galleries by link, prompt print orders, and trigger follow-ups automatically.</p></div>
+        <div class="card"><h3>Event-day checklists</h3><p>Pack lists and setup checklists that persist — so nothing gets left behind.</p></div>
+        <div class="card"><h3>Rebooking engine</h3><p>See past event dates and prompt repeat bookings for anniversaries and next-year parties.</p></div>
+        <div class="card"><h3>Offline-first</h3><p>Use it at the venue with zero cell service. Data lives in your browser unless you choose to share.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-label">How it works</div>
+      <h2>Up and running in minutes</h2>
+      <div class="how">
+        <div class="step"><span class="n">1</span><h4>Open the app</h4><p>Any modern browser on your phone or laptop. No install, no account.</p></div>
+        <div class="step"><span class="n">2</span><h4>Build your first quote</h4><p>Pick a package, add extra hours and add-ons, share the public link.</p></div>
+        <div class="step"><span class="n">3</span><h4>Run the event</h4><p>Manage bookings, galleries, and the day-of checklist — even offline.</p></div>
+        <div class="step"><span class="n">4</span><h4>Follow up & rebook</h4><p>Send follow-ups, prompt print orders, and turn past events into new bookings.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="pricing">
+    <div class="wrap">
+      <div class="section-label">Pricing</div>
+      <h2>Start free. Upgrade when you grow.</h2>
+      <p class="lede">Freemium, no credit card required for the free tier. Paid tiers unlock unlimited bookings, branded galleries, and automation.</p>
+      <div class="pricing-grid">
+        <div class="plan">
+          <h3>Free</h3>
+          <div class="price">$0<span> / forever</span></div>
+          <div class="annual">&nbsp;</div>
+          <ul>
+            <li>Up to 3 clients</li>
+            <li>Basic booking form</li>
+            <li>Simple gallery with shareable link</li>
+            <li>Manual quotes</li>
+            <li>Works offline; data stays on your device</li>
+          </ul>
+          <a class="btn btn-secondary" href="app/">Start free</a>
+        </div>
+        <div class="plan featured">
+          <span class="badge">Most popular</span>
+          <h3>Pro</h3>
+          <div class="price">$29<span> / month</span></div>
+          <div class="annual">or $19/month billed annually</div>
+          <ul>
+            <li>Unlimited clients and bookings</li>
+            <li>Instant quote builder with add-ons</li>
+            <li>Branded gallery with print-order prompt</li>
+            <li>Follow-up messaging flow</li>
+            <li>Event-day checklist</li>
+          </ul>
+          <a class="btn btn-primary" href="https://buy.stripe.com/test_fZubJ28z6cVj45w49WbAs0o">Upgrade to Pro</a>
+        </div>
+        <div class="plan">
+          <h3>Business</h3>
+          <div class="price">$59<span> / month</span></div>
+          <div class="annual">or $39/month billed annually</div>
+          <ul>
+            <li>Everything in Pro</li>
+            <li>Multi-operator setup</li>
+            <li>Multiple booth packages</li>
+            <li>Rebooking engine based on original event dates</li>
+          </ul>
+          <a class="btn btn-secondary" href="https://buy.stripe.com/test_9B6aEYaHedZnfOefSEbAs0p">Upgrade to Business</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="section-label">FAQ</div>
+      <h2>Questions, answered</h2>
+      <details open>
+        <summary>Do I need an account to try it?</summary>
+        <p>No. Open the app and use free-tier features without signing up.</p>
+      </details>
+      <details>
+        <summary>Does it work at the venue?</summary>
+        <p>Yes. The app caches for offline use and stores data locally on the device.</p>
+      </details>
+      <details>
+        <summary>How do paid tiers activate?</summary>
+        <p>Paid tiers activate by license key. After checkout you'll receive a key for Pro or Business; enter it in the Upgrade screen. Demo keys are available for testing.</p>
+      </details>
+      <details>
+        <summary>What's included in Pro?</summary>
+        <p>Unlimited clients, instant quote builder with add-ons, branded galleries with print-order prompts, follow-ups, and the event-day checklist.</p>
+      </details>
+      <details>
+        <summary>What's included in Business?</summary>
+        <p>Everything in Pro, plus multi-operator setup and rebooking prompts based on original event dates.</p>
+      </details>
+      <details>
+        <summary>Where are my photos stored?</summary>
+        <p>Galleries use photo URLs rather than direct uploads in this version. You control where images are hosted and paste links into the gallery.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="cta-final">
+    <div class="wrap">
+      <h2>Try the free tier now</h2>
+      <p>Use the quote calculator and free CRM today. Upgrade when you need unlimited bookings, branded galleries, and event-day automation.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="app/">Open BoothFlow</a>
+        <a class="btn btn-secondary" href="#pricing">View pricing</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div>© 2026 BoothFlow. Built for photo booth operators.</div>
+      <div><a href="mailto:support@ericjoye.com">support@ericjoye.com</a></div>
+      <div class="disclaimer">BoothFlow stores your data locally in your browser. No account is required for the free tier. Paid tiers are activated by license key after checkout.</div>
+    </div>
+  </footer>
+</body>
+</html>
